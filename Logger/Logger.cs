@@ -4,12 +4,15 @@ using System;
 
 namespace Framework
 {
-    public class Logger
+    public static class Logger
     {
-        public enum LoggerType
+        public enum LoggerLevel
         {
-            Unity,
-            Console
+            Info,
+            Debug,
+            Warning,
+            Exception,
+            Error
         }
 
         private static Action<string, string> _InternalLog = null;
@@ -24,20 +27,44 @@ namespace Framework
             _InternalLog = null;
         }
 
-        public static void Log(string str)
+        private static int _mask = -1;
+
+        private static bool CheckCanLog(LoggerLevel logLevel)
         {
-            StackTrace st = new StackTrace(true);
-            StackFrame[] sf = st.GetFrames();
-            StringBuilder sb = new StringBuilder();
-            for (int i = 1; i < sf.Length; i++)
+            if ((_mask & (1 << (int)logLevel)) > 0)
+                return true;
+            return false;
+        }
+
+        public static void SetMask(params LoggerLevel[] level)
+        {
+            if(level != null)
             {
-                sb.AppendLine(string.Format("{0}:{1}()(at {2}:{3})", sf[i].GetMethod().DeclaringType.FullName, sf[i].GetMethod().Name, sf[i].GetFileName(), sf[i].GetFileLineNumber()));
+                _mask = 0;
+                for (int i = 0; i < level.Length; i++)
+                {
+                    _mask |= (1 << (int)level[i]);
+                }
             }
-            LoggerConsole.Show(str, sb.ToString());
-            if (_InternalLog != null)
+        }
+
+        public static void Log(LoggerLevel logLevel, string str)
+        {            
+            if(CheckCanLog(logLevel))
             {
-                _InternalLog(str, sb.ToString());
-            }     
+                StackTrace st = new StackTrace(true);
+                StackFrame[] sf = st.GetFrames();
+                StringBuilder sb = new StringBuilder();
+                for (int i = 1; i < sf.Length; i++)
+                {
+                    sb.AppendLine(string.Format("{0}:{1}()(at {2}:{3})", sf[i].GetMethod().DeclaringType.FullName, sf[i].GetMethod().Name, sf[i].GetFileName(), sf[i].GetFileLineNumber()));
+                }
+                LoggerConsole.Show(logLevel, str, sb.ToString());
+                if (_InternalLog != null)
+                {
+                    _InternalLog(str, sb.ToString());
+                }
+            }           
         }
     }
 }
