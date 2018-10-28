@@ -2,3 +2,6 @@
 /Logger/obj
 /Logger/bin
 /Logger/Connected Services
+LogUnity/LogUnity.csproj
+LogUnity/LogUnity.Plugins.csproj
+LogUnity/LogUnity.sln
