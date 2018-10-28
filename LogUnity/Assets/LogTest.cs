@@ -7,8 +7,11 @@ public class LogTest : MonoBehaviour {
 
     private void Awake()
     {
-        Framework.Logger.SetMask(new Framework.Logger.LoggerLevel[] { Framework.Logger.LoggerLevel.Error, Framework.Logger.LoggerLevel.Warning});
-        Framework.Logger.Log(Framework.Logger.LoggerLevel.Warning, "Awake");
+        CommonLogger.SetMask(LoggerLevel.Error, LoggerLevel.Warning);
+        CommonLogger.Log(LoggerLevel.Warning, "Awake");
+        CommonLogger.SetLogColor(LoggerLevel.Error, "red");
+        CommonLogger.SetLogColor(LoggerLevel.Warning, "yellow");
+
     }
 
     public void Log(string str, string stacktrace)
@@ -19,9 +22,9 @@ public class LogTest : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Framework.Logger.Log(Framework.Logger.LoggerLevel.Warning, "a");
-        Framework.Logger.Log(Framework.Logger.LoggerLevel.Warning, "ab");
-        Framework.Logger.Log(Framework.Logger.LoggerLevel.Warning, "abc");
+        CommonLogger.Log(LoggerLevel.Debug, "a");
+        CommonLogger.Log(LoggerLevel.Warning, "ab");
+        CommonLogger.Log(LoggerLevel.Warning, "abc");
     }
 
     private int cnt = 0;
@@ -29,7 +32,7 @@ public class LogTest : MonoBehaviour {
     void Update () {
         if(Time.frameCount % 10 == 0)
         {
-            Framework.Logger.Log(Framework.Logger.LoggerLevel.Warning, cnt++.ToString());
+            CommonLogger.Log(LoggerLevel.Warning, cnt++.ToString());
         }
 	}
 }

@@ -8,27 +8,31 @@ namespace Framework
     public class LoggerConsole
     {
 #if Unity
-        public static void Show(Logger.LoggerLevel level, string str, string stackTrace)
+
+        private static string _defaultColor = "black";
+
+        public static void Show(LoggerLevel level, string str, string stackTrac, string color = null)
         {
-            if (level == Logger.LoggerLevel.Info)
+            var logColor = _defaultColor;
+            if(!string.IsNullOrEmpty(color))
             {
-                UnityEngine.Debug.Log(string.Format("<color={0}>{1}</color>", "green", str));
+                logColor = color;
             }
-            if (level == Logger.LoggerLevel.Debug)
+            if(level == LoggerLevel.Warning)
             {
-                UnityEngine.Debug.Log(string.Format("<color={0}>{1}</color>", "white", str));
+                UnityEngine.Debug.LogWarning(string.Format("<color={0}>{1}</color>", logColor, str));
             }
-            else if(level == Logger.LoggerLevel.Warning)
+            else if(level == LoggerLevel.Error)
             {
-                UnityEngine.Debug.LogWarning(string.Format("<color={0}>{1}</color>", "yellow", str));
+                UnityEngine.Debug.LogError(string.Format("<color={0}>{1}</color>", logColor, str));
             }
-            else if(level == Logger.LoggerLevel.Error)
+            else
             {
-                UnityEngine.Debug.LogError(string.Format("<color={0}>{1}</color>", "red", str));
+                UnityEngine.Debug.Log(string.Format("<color={0}>{1}</color>", logColor, str));
             }
         }
 #else
-        public static void Show(string str, string stackTrace)
+        public static void Show(LoggerLevel level, string str, string stackTrace)
         {
             Console.WriteLine(str);
         }

@@ -1,18 +1,25 @@
 ﻿using System.Diagnostics;
 using System.Text;
 using System;
+using System.Collections.Generic;
 
 namespace Framework
 {
-    public static class Logger
+    public enum LoggerLevel
     {
-        public enum LoggerLevel
+        Info,
+        Debug,
+        Warning,
+        Exception,
+        Error
+    }
+
+    public static class CommonLogger
+    {
+        private static Dictionary<LoggerLevel, string> _loggerColor = new Dictionary<LoggerLevel, string>();
+
+        static CommonLogger()
         {
-            Info,
-            Debug,
-            Warning,
-            Exception,
-            Error
         }
 
         private static Action<string, string> _InternalLog = null;
@@ -25,6 +32,11 @@ namespace Framework
         public static void UnRegisterLogFunc(Action<string, string> logFunc)
         {
             _InternalLog = null;
+        }
+
+        public static void SetLogColor(LoggerLevel level, string color)
+        {
+            _loggerColor[level] = color;
         }
 
         private static int _mask = -1;
@@ -59,7 +71,9 @@ namespace Framework
                 {
                     sb.AppendLine(string.Format("{0}:{1}()(at {2}:{3})", sf[i].GetMethod().DeclaringType.FullName, sf[i].GetMethod().Name, sf[i].GetFileName(), sf[i].GetFileLineNumber()));
                 }
-                LoggerConsole.Show(logLevel, str, sb.ToString());
+                string color = null;
+                _loggerColor.TryGetValue(logLevel, out color);
+                LoggerConsole.Show(logLevel, str, sb.ToString(), color);
                 if (_InternalLog != null)
                 {
                     _InternalLog(str, sb.ToString());
