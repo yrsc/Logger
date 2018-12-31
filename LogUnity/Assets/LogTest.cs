@@ -7,24 +7,22 @@ public class LogTest : MonoBehaviour {
 
     private void Awake()
     {
-        CommonLogger.SetMask(LoggerLevel.Error, LoggerLevel.Warning);
-        CommonLogger.Log(LoggerLevel.Warning, "Awake");
-        CommonLogger.SetLogColor(LoggerLevel.Error, "red");
-        CommonLogger.SetLogColor(LoggerLevel.Warning, "yellow");
-
+        CommonLogger.SetMask(LoggerLevel.Error, LoggerLevel.Warning, LoggerLevel.Debug);
+        var path = Application.persistentDataPath + "/ " + System.DateTime.Now.ToShortTimeString();
+        CommonLogger.Log(LoggerLevel.Debug, "path is " + path);
+        CommonLogger.SetWritePath(path);
+        CommonLogger.Log(LoggerLevel.Warning, "Awake", LogColor.blue);
     }
-
-    public void Log(string str, string stacktrace)
-    {
-        Debug.Log("str is " + str);
-        Debug.Log("stack trace is " + stacktrace);
-    }
-
     // Use this for initialization
     void Start () {
-        CommonLogger.Log(LoggerLevel.Debug, "a");
-        CommonLogger.Log(LoggerLevel.Warning, "ab");
-        CommonLogger.Log(LoggerLevel.Warning, "abc");
+        DoTest();
+        CommonLogger.Log(LoggerLevel.Warning, "ab",LogColor.red);
+        CommonLogger.Log(LoggerLevel.Debug, "abc", new LogColor(1, 1f, 0.0f));
+    }
+
+    void DoTest()
+    {
+        CommonLogger.LogAndWrite(LoggerLevel.Debug, "DoTest ", true, new LogColor(1, 0f, 0.0f));
     }
 
     private int cnt = 0;
@@ -32,7 +30,7 @@ public class LogTest : MonoBehaviour {
     void Update () {
         if(Time.frameCount % 10 == 0)
         {
-            CommonLogger.Log(LoggerLevel.Warning, cnt++.ToString());
+            CommonLogger.LogAndWrite(LoggerLevel.Warning, cnt++.ToString());
         }
 	}
 }
