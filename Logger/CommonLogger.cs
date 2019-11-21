@@ -160,17 +160,17 @@ namespace Framework
 
         public static void LogAndWrite(LoggerLevel logLevel, string log)
         {
-            LogAndWrite(logLevel, log, LogColor.black);
+            LogAndWrite(logLevel, log, LogColor.white);
         }
 
         public static void LogAndWrite(LoggerLevel logLevel, string log, bool needStackTrace)
         {
-            LogAndWrite(logLevel, log, needStackTrace, LogColor.black);
+            LogAndWrite(logLevel, log, needStackTrace, LogColor.white);
         }
 
         public static void LogAndWrite(LoggerLevel logLevel, string log, LogColor color)
         {
-            LogAndWrite(logLevel, log, false, LogColor.black);
+            LogAndWrite(logLevel, log, false, LogColor.white);
         }
 
         public static void LogAndWrite(LoggerLevel logLevel, string log, bool needStackTrace, LogColor color)
@@ -186,7 +186,7 @@ namespace Framework
 
         public static void Log(LoggerLevel logLevel, string log)
         {
-            Log(logLevel, log, LogColor.black);
+            Log(logLevel, log, LogColor.white);
         }
 
         public static void Log(LoggerLevel logLevel, string log, LogColor color)
@@ -196,7 +196,7 @@ namespace Framework
 
         public static void Log(LoggerLevel logLevel, string log, bool needStackTrace)
         {
-            Log(logLevel, log, needStackTrace, LogColor.black);
+            Log(logLevel, log, needStackTrace, LogColor.white);
         }
 
         public static void Log(LoggerLevel logLevel, string log, bool needStackTrace, LogColor color)
