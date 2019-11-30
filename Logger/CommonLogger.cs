@@ -79,7 +79,7 @@ namespace Framework
             return false;
         }
 
-        public static void SetMask(params LoggerLevel[] level)
+        public static void SetMask(LoggerLevel[] level)
         {
             if(level != null)
             {

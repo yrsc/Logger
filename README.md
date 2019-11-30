@@ -1,1 +1,3 @@
 # Logger
+1. 将LoggerHelper挂载在一个不删除的预制件上，铜鼓loggerHelper，调整打印参数
+2. 使用CommonLogger.Log来打印Log，使用CommonLogger.LogAndWrite来打印并且保存log,log文件保存的位置在LoggerHelper的Awake中设置
